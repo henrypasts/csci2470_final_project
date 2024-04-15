@@ -6,22 +6,17 @@ Since our project is 2470 level, a lot of the design decisions are novel. Howeve
 
 Paper #1: 
 Title: "Prediction of Cryptocurrency prices using Transformers and Long Short term Neural Networks," A. Tanwar and V. Kumar
-
 Summary: This paper attempts to predict financial time series for Bitcoin using Transformer and LSTM model architectures. It combines both architectures to capture both short-term and long-term dependencies. The results show that this combined approach leads to longer computational times, but outperforms the predictive accuracy of traditional RNN/KNN forecasting models.
-
 How we can improve: We aim 1) enhance sentiment analysis and 2) expand the dataset. For sentiment analysis, we plan to extract sentiment signals from beyond the basic sentiment scores used in this paper by potentially using BERT to extract more nuanced insights (reach goal). For the dataset, we are extending the scope of the dataset to additional sources of sentiment data with Tweets and Bloomberg data. We can also investigate potential efficiency gains by experimenting with smaller Transformer variants.
-
 URL: Prediction of Cryptocurrency prices using Transformers and Long Short term Neural Networks
 
 Additional related work:
 
 - Title: "Predicting Cryptocurrency Price Movement using Generative Transformer (MinGPT)"
-
 Summary: This paper uses a pure transformer approach, specifically minGPT, to predict cryptocurrency price movement. 
 URL:https://medium.com/@bondarchukb/predicting-cryptocurrency-price-movement-using-generative-transformer-mingpt-7bc0c3a9304b
 
 - Title: "Attention Transformer with Sentiment on Cryptocurrency Price Prediction"
-
 Summary: This paper investigates the use of attention within Transformers for cryptocurrency price prediction, while using sentiment analysis as an additional feature. It measures the impact of sentiment on price dynamics.
 URL: https://doras.dcu.ie/27010/2/Attention__Transformer_with_sentiment_on_cryptocurrency_price_prediction___Complexis_conference.pdf
 
