@@ -5,10 +5,10 @@ We are predicting the price movements of BTC using past price movements and mark
 Since our project is 2470 level, a lot of the design decisions are novel. However, we did draw inspiration for our model architecture and, at a higher level, overall strategy from several related papers.
 
 Paper #1: 
-Title: "Prediction of Cryptocurrency prices using Transformers and Long Short term Neural Networks," A. Tanwar and V. Kumar
-Summary: This paper attempts to predict financial time series for Bitcoin using Transformer and LSTM model architectures. It combines both architectures to capture both short-term and long-term dependencies. The results show that this combined approach leads to longer computational times, but outperforms the predictive accuracy of traditional RNN/KNN forecasting models.
-How we can improve: We aim 1) enhance sentiment analysis and 2) expand the dataset. For sentiment analysis, we plan to extract sentiment signals from beyond the basic sentiment scores used in this paper by potentially using BERT to extract more nuanced insights (reach goal). For the dataset, we are extending the scope of the dataset to additional sources of sentiment data with Tweets and Bloomberg data. We can also investigate potential efficiency gains by experimenting with smaller Transformer variants.
-URL: Prediction of Cryptocurrency prices using Transformers and Long Short term Neural Networks
+- Title: "Prediction of Cryptocurrency prices using Transformers and Long Short term Neural Networks," A. Tanwar and V. Kumar
+- Summary: This paper attempts to predict financial time series for Bitcoin using Transformer and LSTM model architectures. It combines both architectures to capture both short-term and long-term dependencies. The results show that this combined approach leads to longer computational times, but outperforms the predictive accuracy of traditional RNN/KNN forecasting models.
+- How we can improve: We aim 1) enhance sentiment analysis and 2) expand the dataset. For sentiment analysis, we plan to extract sentiment signals from beyond the basic sentiment scores used in this paper by potentially using BERT to extract more nuanced insights (reach goal). For the dataset, we are extending the scope of the dataset to additional sources of sentiment data with Tweets and Bloomberg data. We can also investigate potential efficiency gains by experimenting with smaller Transformer variants.
+- URL: Prediction of Cryptocurrency prices using Transformers and Long Short term Neural Networks
 
 Additional related work:
 
