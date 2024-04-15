@@ -8,21 +8,26 @@ Our model is a classification model. We drew inspiration from several papers tha
 ## Related Work
 Since our project is 2470 level, a lot of the design decisions are novel. However, we did draw inspiration for our model architecture and, at a higher level, overall strategy from several related papers.
 
-Paper #1: 
+### Paper #1: 
+- Title: "Prediction of Stock Price Time Series using Transformers" Lorenzo D. Costa, Alexei M. C. Machado
+- Summary: This paper attempts to predict financial time series for stock prices using a Transformer model architecture. It compares the Transformer architecture to two classical models, Autoregressive Integrated Moving Average (ARIMA) and LSTMs. They conclude that the Transformer predicts stock movements with higher accuracy 60% of the time.
+- How we can improve: We aim to 1) change it to a classification problem and 2) integrate sentiment analysis to gain a global understanding of market conditions as opposed to relying solely on technical analysis. First, we believe our model will learn more meaningful relationships if we bucket output values to a finite number of classification intervals, rather than trying to learn a regression task. We believe that this will prevent the model from overfitting, since it does not have to predict a specific numerical value. One of the main drawbacks this paper admits is that technical analysis does not cover global sentiment that is necessary in predicting price movements. To address this, we plan to integrate another model that tries to find relationships between Twitter sentiment and the movement of BTC prices.
+- URL: https://sol.sbc.org.br/index.php/bwaif/article/download/24955/24776/
+
+### Paper #2: 
 - Title: "Prediction of Cryptocurrency prices using Transformers and Long Short term Neural Networks," A. Tanwar and V. Kumar
 - Summary: This paper attempts to predict financial time series for Bitcoin using Transformer and LSTM model architectures. It combines both architectures to capture both short-term and long-term dependencies. The results show that this combined approach leads to longer computational times, but outperforms the predictive accuracy of traditional RNN/KNN forecasting models.
-- How we can improve: We aim to 1) enhance sentiment analysis and 2) expand the dataset. For sentiment analysis, we plan to extract sentiment signals from beyond the basic sentiment scores used in this paper by potentially using BERT to extract more nuanced insights (reach goal). For the dataset, we are extending the scope of the dataset to additional sources of sentiment data with Tweets and Bloomberg data. We can also investigate potential efficiency gains by experimenting with smaller Transformer variants.
+- How we can improve: We aim 1) enhance sentiment analysis and 2) expand the dataset. For sentiment analysis, we plan to extract sentiment signals from beyond the basic sentiment scores used in this paper by potentially using BERT to extract more nuanced insights (reach goal). For the dataset, we are extending the scope of the dataset to additional sources of sentiment data with Tweets and Bloomberg data. We can also investigate potential efficiency gains by experimenting with smaller Transformer variants.
 - URL: Prediction of Cryptocurrency prices using Transformers and Long Short term Neural Networks
 
-Additional related work:
-
+### Additional related work:
 - Title: "Predicting Cryptocurrency Price Movement using Generative Transformer (MinGPT)"
-Summary: This paper uses a pure transformer approach, specifically minGPT, to predict cryptocurrency price movement. 
-URL:https://medium.com/@bondarchukb/predicting-cryptocurrency-price-movement-using-generative-transformer-mingpt-7bc0c3a9304b
-
+- Summary: This paper uses a pure transformer approach, specifically minGPT, to predict cryptocurrency price movement. 
+- URL:https://medium.com/@bondarchukb/predicting-cryptocurrency-price-movement-using-generative-transformer-mingpt-7bc0c3a9304b
 - Title: "Attention Transformer with Sentiment on Cryptocurrency Price Prediction"
 Summary: This paper investigates the use of attention within Transformers for cryptocurrency price prediction, while using sentiment analysis as an additional feature. It measures the impact of sentiment on price dynamics.
-URL: https://doras.dcu.ie/27010/2/Attention__Transformer_with_sentiment_on_cryptocurrency_price_prediction___Complexis_conference.pdf
+- URL: https://doras.dcu.ie/27010/2/Attention__Transformer_with_sentiment_on_cryptocurrency_price_prediction___Complexis_conference.pdf
+
 
 ## Data
 To get data on past BTC price, we will be using the [“Bitcoin Historical Data”](https://www.kaggle.com/datasets/mczielinski/bitcoin-historical-data) dataset, which is publicly available on Kaggle. This dataset is composed of price data at 1-minute intervals, and records activity from 2012 until 2021. 
