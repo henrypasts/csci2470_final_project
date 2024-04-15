@@ -55,15 +55,15 @@ When using metrics like Sparse Categorical Cross-Entropy, Mean Squared Error (MS
 
 ## Division of Labor
 
-John Wilkinson: Organizer, will make sure everyone is completing their tasks and that the group is on track to accomplish our goals.
+John Wilkinson: organize meetings and deadlines, work on sentiment analysis model
 
-Maxime Seknadje: will help with model parameter tuning and presentation/report in terms of prior work.
+Maxime Seknadje: help with model parameter tuning, model integration
 
-Stefano Chiappo: will assist with presentation/report in terms of ethics.
+Stefano Chiappo: in charge of cloud computing and preprocessing 
 
-Manoli Angelakis: will assist with presentation/report, including introductions, background, and visuals.
+Manoli Angelakis: work on sentiment analysis model, report visuals
 
-Henry Pasts: will assist with presentation/report and focus on model architecture with help from other group members.
+Henry Pasts: in charge of overarching classifier model and architecture
 
 
 ## Note:
