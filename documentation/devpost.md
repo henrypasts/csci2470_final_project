@@ -11,10 +11,12 @@ How we can improve: We aim 1) enhance sentiment analysis and 2) expand the datas
 URL: Prediction of Cryptocurrency prices using Transformers and Long Short term Neural Networks
 
 Additional related work:
-Title: "Predicting Cryptocurrency Price Movement using Generative Transformer (MinGPT)"
+
+- Title: "Predicting Cryptocurrency Price Movement using Generative Transformer (MinGPT)"
 Summary: This paper uses a pure transformer approach, specifically minGPT, to predict cryptocurrency price movement. 
 URL:https://medium.com/@bondarchukb/predicting-cryptocurrency-price-movement-using-generative-transformer-mingpt-7bc0c3a9304b
-Title: "Attention Transformer with Sentiment on Cryptocurrency Price Prediction"
+
+- Title: "Attention Transformer with Sentiment on Cryptocurrency Price Prediction"
 Summary: This paper investigates the use of attention within Transformers for cryptocurrency price prediction, while using sentiment analysis as an additional feature. It measures the impact of sentiment on price dynamics.
 URL: https://doras.dcu.ie/27010/2/Attention__Transformer_with_sentiment_on_cryptocurrency_price_prediction___Complexis_conference.pdf
 
