@@ -3,6 +3,8 @@ Our project aims to predict the price movements of BTC using past price movement
 
 The philosophy behind this approach is that BTC has experienced extreme price changes, so a model trying to predict future price may struggle since it will be trained on a massive potential range. Even using a minmax scale, the distribution is not stationary since the mean price is constantly changing. However, the underlying patterns in price movement are more consistent throughout the entire dataset. As mentioned before, we address this problem by focusing on percent changes, which are tracked by grouping similar price changes.
 
+Our model is a classification model. We drew inspiration from several papers that used transformers on stock and BTC data for price prediction or price movement. However, our project differs from most existing work by a) trying to predict price movement, b) using sentiment, and c) using a transformer architecture, a combination of which has been discussed in academia but has not been thoroughly explored, to our understanding.
+
 ## Related Work
 Since our project is 2470 level, a lot of the design decisions are novel. However, we did draw inspiration for our model architecture and, at a higher level, overall strategy from several related papers.
 
