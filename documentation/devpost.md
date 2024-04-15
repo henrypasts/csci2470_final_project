@@ -56,9 +56,9 @@ Henry Pasts: will assist with presentation/report and focus on model architectur
 
 ## Note:
 
-Our Base Goal - Our model should be able to predict whether the future price of BTC will go up or down based on past prices with validation accuracy >50%. We will use a classification model trained on BTC price history.
+Our Base Goal - Our model should be able to predict whether the future price of BTC will go up or down based on past prices with validation accuracy >50%. We will use a classification model trained on BTC price history. Getting a working model at all will be reasonably significant, since we are experimenting with a novel architecture.
 
-Our Target Goal - We aim to maximize our model's validation accuracy, ideally somewhere around 70%. We are reasonably confident that we can achieve this with our model architecture.
+Our Target Goal - We aim to maximize our model's validation accuracy, ideally somewhere around 55%. While 55% accuracy may seem low for other applications, in this context it would represent being able to predict positive or negative movement more often than not. 
 
 Our Stretch Goal- We want to try and implement market sentiments within our model. Doing so will require another model to perform sentiment analysis on a dataset of BTC related tweets. From there, we will be able to line it up with our time series data and input both into the transformer architecture described before. This will hopefully give us the opportunity to better predict the price movement BTC. 
 
