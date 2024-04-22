@@ -1,30 +1,34 @@
 import pandas as pd
 from langdetect import detect
+from langid import classify     # faster than langdetect
 from tqdm import tqdm
 
+PROCESS_ALL = True
+
 TWEETS_CSV = 'data/tweets.csv'
+TWEETS_CSV_OUT = 'data/cleaned_tweets.csv' if PROCESS_ALL else 'data/cleaned_tweets_sample.csv'
 
-def print_head():
-    df = pd.read_csv(TWEETS_CSV, sep=';', nrows=10000, usecols=['timestamp','text'])    
-    print(df.head(100))
-
-def is_valid_text(text):
-    # Check if text is not empty or too short (e.g., less than 10 characters)
-    return bool(text.strip()) and len(text.strip()) >= 10
 
 def detect_language(text):
+    """
+    Detects language of text
+    """
     try:
-        if is_valid_text(text):
-            return detect(text)
+        if bool(text.strip()) and len(text.strip()) >= 10:
+            return classify(text)[0]
         else:
             return "invalid"
     except:
         return "exception"
 
-def preprocess():
-    print("Running preprocess...")
+def clean_data():
+    """
+    Cleans data by removing non-english tweets
+    """
+    print("Running clean data...")
     df = pd.read_csv(TWEETS_CSV, 
                     sep=';', 
+                    nrows=None if PROCESS_ALL else 10000,
                     usecols=['timestamp','text'],         
                     dtype={'timestamp': 'str', 'text': 'str'}
                     )
@@ -32,8 +36,11 @@ def preprocess():
     df['lang'] = df['text'].progress_apply(detect_language)
     print(df['lang'].value_counts())
     df = df[df['lang'] == 'en']
-    df.to_csv('data/english_tweets.csv', index=False, sep=';')
+    df.to_csv(TWEETS_CSV_OUT, index=False, sep=';')     # Save cleaned data
+    return df
+
+
 
 
 if __name__ == '__main__':
-    preprocess()
+    clean_data()
