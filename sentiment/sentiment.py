@@ -7,17 +7,25 @@ SENTIMENT_TWEETS_CSV = 'data/sentiment_tweets.csv'
 
 sentiment = SentimentIntensityAnalyzer()
 
-def get_sentiment(text):
+def get_sentiment_vader(text):
     """
     Returns sentiment of text using vader 
     """
-    sentiment_score = sentiment.polarity_scores(text)
-    sentiment_compound = sentiment_score['compound']
-    # print(text, sentiment_score)
-    return sentiment_score, sentiment_compound
+    sentiment_raw = sentiment.polarity_scores(text)
+    sentiment_compound = sentiment_raw['compound']
 
-def get_sentiment_data():
-    print("Running sentiment data...")
+    if sentiment_compound >= 0.05:
+        sentiment_score = 'positive'
+    elif sentiment_compound <= -0.05:
+        sentiment_score = 'negative'
+    else:
+        sentiment_score = 'neutral'
+
+    # print(text, sentiment_score)
+    return sentiment_score
+
+def get_sentiment_data(method=get_sentiment_vader):
+    print(f"Running sentiment data with {method.__name__}...")
     df = pd.read_csv(CLEANED_TWEETS_CSV, 
                     sep=';', 
                     nrows=None,
@@ -25,8 +33,12 @@ def get_sentiment_data():
                     dtype={'timestamp': 'str', 'text': 'str'}
                     )
     tqdm.pandas()
-    df['sentiment'], df['compound'] = zip(*df['text'].progress_apply(get_sentiment))
+    
+    df['sentiment'] = df['text'].progress_apply(method)
+        
+    df = df[['timestamp', 'sentiment']]
     df.to_csv(SENTIMENT_TWEETS_CSV, index=False, sep=';')     # Save sentiment data
+    print(df['sentiment'].value_counts())
     return df
 
 if __name__ == '__main__':
