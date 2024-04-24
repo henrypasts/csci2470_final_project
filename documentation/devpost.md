@@ -5,6 +5,9 @@ The philosophy behind this approach is that BTC has experienced extreme price ch
 
 Our model is a classification model. We drew inspiration from several papers that used transformers on stock and BTC data for price prediction or price movement. However, our project differs from most existing work by a) trying to predict price movement, b) using sentiment, and c) using a transformer architecture, a combination of which has been discussed in academia but has not been thoroughly explored, to our understanding.
 
+## Updates
+- [Check-In 3](https://docs.google.com/document/d/1RBqhe7-PH8v3Sre5BrYkGSu8qUkOlxjQHbOeBkzzyxk/edit?usp=sharing)
+
 ## Related Work
 Since our project is 2470 level, a lot of the design decisions are novel. However, we did draw inspiration for our model architecture and, at a higher level, overall strategy from several related papers.
 
