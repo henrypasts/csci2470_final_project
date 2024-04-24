@@ -135,12 +135,8 @@ class Transformer(tf.keras.Model):
         self.encoder = Encoder(num_layers, d_model, num_heads, dff, input_vocab_size, rate)
         self.decoder = Decoder(num_layers, d_model, num_heads, dff, target_vocab_size, rate)
         self.softmax = softmax
-        if softmax:
-            self.final_layer = tf.keras.layers.Dense(target_vocab_size, activation="softmax")
-        else:
-            self.flatten = tf.keras.layers.Flatten()
-            self.dense1 = tf.keras.layers.Dense(128, activation='relu')
-            self.final_layer = tf.keras.layers.Dense(1)
+        self.final_layer = tf.keras.layers.Dense(target_vocab_size, activation="softmax")
+
 
     def call(self, inputs, training=False):
         inp, tar = inputs
@@ -149,11 +145,9 @@ class Transformer(tf.keras.Model):
         look_ahead_mask = self.create_look_ahead_mask(tf.shape(tar)[1])
         dec_target_padding_mask = self.create_padding_mask(tar)
         combined_mask = tf.maximum(dec_target_padding_mask, look_ahead_mask)  # Combine padding and look-ahead mask
-
         enc_output = self.encoder(inp, training, enc_padding_mask)  # Encode input sequence
         dec_output = self.decoder(tar, enc_output, training, combined_mask, dec_padding_mask)
         final_output = self.final_layer(dec_output)  # Final prediction
-
         return final_output
 
     def create_padding_mask(self, seq):
@@ -178,3 +172,8 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
         arg2 = step * (self.warmup_steps ** -1.5)
         return tf.math.rsqrt(self.d_model) * tf.math.minimum(arg1, arg2)
 
+    def get_config(self):
+        return {
+            'd_model': self.d_model.numpy(),  # convert d_model to its original type if necessary
+            'warmup_steps': self.warmup_steps
+        }
