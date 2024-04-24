@@ -1,7 +1,7 @@
 import pandas as pd
-from langdetect import detect
-from langid import classify     # faster than langdetect
 from tqdm import tqdm
+# from langdetect import detect
+# from langid import classify     # faster than langdetect
 import cld3
 
 PROCESS_ALL = True
