@@ -37,8 +37,6 @@ def window_data(data, data_percents, dates, window):
     y_percents = []
     y_dates = []
     for i in range(0, len(data) - window):
-        if i + window + 1 > len(data):
-            x = 1
         if i + window + 1 < len(data):
             x.append(data[i: i + window])
             y.append(data[i + 1: i + window + 1])
@@ -97,7 +95,7 @@ def preprocess(df: pd.DataFrame, window_size: int = 20):
     upper_bound = 0.0070  # train_df['Percent Change'].max()
 
     # generate the buckets:
-    step_size = 0.00025  # This is 0.05% or 5 bps
+    step_size = 0.00025  # This is 0.025% or 2.5 bps
     negative_buckets = np.arange(-step_size, lower_bound - step_size, -step_size)[::-1]
     positive_buckets = np.arange(0, upper_bound + step_size, step_size)
 

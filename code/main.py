@@ -9,6 +9,7 @@ from transformer import Transformer, CustomSchedule
 from helper_functions import print_confusion_matrix_stats, get_category, calculate_accuracy, \
     calculate_last_accuracy, simulate_trading
 from preprocess import preprocess
+import matplotlib.dates as mdates
 
 
 def main():
@@ -73,8 +74,8 @@ def main():
         save_best_only=True)
 
     # Train the model
-    history = model.fit(x=train_inputs, y=y_train, batch_size=32, epochs=2, validation_data=(val_inputs, y_val),
-                        callbacks=[model_checkpoint_callback])
+    # history = model.fit(x=train_inputs, y=y_train, batch_size=32, epochs=2, validation_data=(val_inputs, y_val),
+    #                     callbacks=[model_checkpoint_callback])
 
     # # plot the training and validation loss:
     # plt.plot(history.history['loss'], label='Training Loss')
@@ -173,7 +174,8 @@ def main():
     plt.xlabel('Date')
     plt.ylabel('Category')
     plt.legend()
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=45, fontsize=6)
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M:%S'))
     plt.tight_layout()
     plt.savefig("figs/validation_last_pred_true_over_time_last_100.png")
     plt.show()
@@ -205,7 +207,8 @@ def main():
     plt.xlabel('Date')
     plt.ylabel('Category')
     plt.legend()
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=45, fontsize=6)
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M:%S'))
     plt.tight_layout()
     plt.savefig("figs/test_last_pred_true_over_time_last_100.png")
     plt.show()
