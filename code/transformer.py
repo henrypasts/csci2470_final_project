@@ -137,28 +137,45 @@ class Transformer(tf.keras.Model):
         self.softmax = softmax
         self.final_layer = tf.keras.layers.Dense(target_vocab_size, activation="softmax")
 
-
-    def call(self, inputs, training=False):
+    def call(self, inputs, training=True):
         inp, tar = inputs
         enc_padding_mask = self.create_padding_mask(inp)
-        dec_padding_mask = self.create_padding_mask(inp)  # This might be the same as the encoder padding mask
+        dec_padding_mask = self.create_padding_mask(inp)
         look_ahead_mask = self.create_look_ahead_mask(tf.shape(tar)[1])
         dec_target_padding_mask = self.create_padding_mask(tar)
-        combined_mask = tf.maximum(dec_target_padding_mask, look_ahead_mask)  # Combine padding and look-ahead mask
-        enc_output = self.encoder(inp, training, enc_padding_mask)  # Encode input sequence
+        combined_mask = tf.maximum(dec_target_padding_mask, look_ahead_mask)
+        enc_output = self.encoder(inp, training, enc_padding_mask)
         dec_output = self.decoder(tar, enc_output, training, combined_mask, dec_padding_mask)
-        final_output = self.final_layer(dec_output)  # Final prediction
+        final_output = self.final_layer(dec_output)
         return final_output
 
+    def generate_next_probs(self, inps):
+        enc_padding_mask = self.create_padding_mask(inps)
+        enc_output = self.encoder(inps, training=False, mask=enc_padding_mask)
+
+        # Initialize the target sequences with the last token of each input sequence
+        target_seqs = inps[:, -1:]
+
+        dec_padding_mask = self.create_padding_mask(target_seqs)
+        look_ahead_mask = self.create_look_ahead_mask(tf.shape(target_seqs)[1])
+        combined_mask = tf.maximum(dec_padding_mask, look_ahead_mask)
+
+        dec_output = self.decoder(target_seqs, enc_output, training=False, look_ahead_mask=combined_mask,
+                                  padding_mask=dec_padding_mask)
+        final_output = self.final_layer(dec_output)
+
+        # Get the predicted probabilities for the next time step for each sequence
+        next_probs = final_output[:, -1, :]
+
+        return next_probs
+
     def create_padding_mask(self, seq):
-        # Mask all the pad tokens in the batch of sequence. It ensures that the model does not treat padding as the input.
         seq = tf.cast(tf.math.equal(seq, 0), tf.float32)
-        return seq[:, tf.newaxis, tf.newaxis, :]  # (batch_size, 1, 1, seq_len)
+        return seq[:, tf.newaxis, tf.newaxis, :]
 
     def create_look_ahead_mask(self, size):
-        # Create a mask to hide the future tokens in the sequence. This ensures that predictions for a position can only depend on the known outputs.
         mask = 1 - tf.linalg.band_part(tf.ones((size, size)), -1, 0)
-        return mask  # (seq_len, seq_len)
+        return mask
 
 
 class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):

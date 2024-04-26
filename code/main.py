@@ -13,9 +13,12 @@ import matplotlib.dates as mdates
 
 
 def main():
+
+    window_size = 10
+
     df = pd.read_csv("bitcoin_1-min_data_2019.csv")
     x_train, y_train, y_train_percents, x_val, y_val, y_val_percents, x_test, y_test, y_test_percents, \
-        category_at_zero, category_size, train_dates, val_dates, test_dates = preprocess(df, window_size=10)
+        category_at_zero, category_size, train_dates, val_dates, test_dates = preprocess(df, window_size=window_size)
 
     # checkpoint_filepath = 'tmp'
     #
@@ -59,22 +62,16 @@ def main():
     # training input and target data preparation
     train_inputs = (x_train, y_train)
 
-    # validation input and target data preparation (pass in the same input and target)
-    val_inputs = (x_val, x_val)
-
-    # test input and target data preparation (pass in the same input and target)
-    test_inputs = (x_test, x_test)
-
     checkpoint_filepath = 'tmp/checkpoint'
     model_checkpoint_callback = ModelCheckpoint(
         filepath=checkpoint_filepath,
         save_weights_only=True,
-        monitor='val_sparse_categorical_accuracy',
-        mode='min',
+        monitor='sparse_categorical_accuracy',
+        mode='max',
         save_best_only=True)
 
     # Train the model
-    # history = model.fit(x=train_inputs, y=y_train, batch_size=32, epochs=2, validation_data=(val_inputs, y_val),
+    # history = model.fit(x=train_inputs, y=y_train, batch_size=32, epochs=2, #  validation_data=(val_inputs, y_val),
     #                     callbacks=[model_checkpoint_callback])
 
     # # plot the training and validation loss:
@@ -89,15 +86,13 @@ def main():
     # Load the best model:
     model.load_weights(checkpoint_filepath)
 
-    # Make predictions
-    # y_train_pred = model.predict(train_inputs)
-    y_val_pred = model.predict(val_inputs)
-    y_test_pred = model.predict(test_inputs)
+    y_val_last_pred = model.generate_next_probs(x_val)
+    y_test_last_pred = model.generate_next_probs(x_test)
 
-    # Extract the last predictions for training and validation sets
-    # y_train_last_pred = np.array([y_pred[-1] for y_pred in y_train_pred])
-    y_val_last_pred = np.array([y_pred[-1] for y_pred in y_val_pred])
-    y_test_last_pred = np.array([y_pred[-1] for y_pred in y_test_pred])
+    # # Extract the last predictions for training and validation sets
+    # # y_train_last_pred = np.array([y_pred[-1] for y_pred in y_train_pred])
+    # y_val_last_pred = np.array([y_pred[-1] for y_pred in y_val_pred])
+    # y_test_last_pred = np.array([y_pred[-1] for y_pred in y_test_pred])
 
     # Extract the last true labels for training and validation sets
     # y_train_last_true = np.array([y_true[-1] for y_true in y_train])
