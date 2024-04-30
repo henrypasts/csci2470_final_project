@@ -15,11 +15,11 @@ def get_sentiment_vader(text):
     sentiment_compound = sentiment_raw['compound']
 
     if sentiment_compound >= 0.05:
-        sentiment_score = 'positive'
+        sentiment_score = 1
     elif sentiment_compound <= -0.05:
-        sentiment_score = 'negative'
+        sentiment_score = -1
     else:
-        sentiment_score = 'neutral'
+        sentiment_score = 0
 
     # print(text, sentiment_score)
     return sentiment_score
