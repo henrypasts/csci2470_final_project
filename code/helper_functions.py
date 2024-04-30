@@ -4,6 +4,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import pandas as pd
+import seaborn as sns
 
 
 def categorize_value(x, bucket_ranges):
@@ -14,6 +15,13 @@ def categorize_value(x, bucket_ranges):
 def print_confusion_matrix_stats(y_true, y_pred):
     cm = confusion_matrix(y_true, y_pred)  # Get the confusion matrix
     TN, FP, FN, TP = cm.ravel()  # Unpacking the confusion matrix
+
+    # Plot the confusion matrix
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(cm, annot=True, cmap="Blues")
+    plt.xlabel("Predicted labels")
+    plt.ylabel("True labels")
+    plt.show()
 
     TPR = TP / (TP + FN)
     FPR = FP / (FP + TN)
