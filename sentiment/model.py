@@ -68,8 +68,8 @@ def main():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     seq_length = 10  
-    X_train_seq = np.array([X_train[i:i+seq_length] for i in range(len(X_train)-seq_length+1)])
-    X_test_seq = np.array([X_test[i:i+seq_length] for i in range(len(X_test)-seq_length+1)])
+    X_train_seq = np.array([X_train.iloc[i:i+seq_length] for i in range(len(X_train)-seq_length+1)])
+    X_test_seq = np.array([X_test.iloc[i:i+seq_length] for i in range(len(X_test)-seq_length+1)])
     y_train_seq = np.array([y_train.iloc[i+seq_length-1] for i in range(len(X_train)-seq_length+1)])
     y_test_seq = np.array([y_test.iloc[i+seq_length-1] for i in range(len(X_test)-seq_length+1)])
 
