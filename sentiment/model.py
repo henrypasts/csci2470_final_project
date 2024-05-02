@@ -9,11 +9,10 @@ class btcLSTM(tf.keras.Model):
 
     ##########################################################################################
 
-    def __init__(self, vocab_size=1, rnn_size=64, embed_size=64):
+    def __init__(self, rnn_size=64, embed_size=64):
 
         super().__init__()
 
-        self.vocab_size = vocab_size
         self.rnn_size = rnn_size
         self.embed_size = embed_size
 
@@ -45,13 +44,25 @@ def main():
     X = data[['Percent Change', 'compound']]
     y = data['Percent Change'].shift(-1)
 
-    print(X.head(7))
-    print()
-    print(y.head(7))
+    mean_percent_change = data['Percent Change'].mean()
 
-    print(X.shape)
-    print()
-    print(y.shape)
+    y = data['Percent Change'].shift(-1).fillna(mean_percent_change)
+
+    y = y.iloc[1:]
+
+    X = data[['Percent Change', 'compound']].iloc[:-1]
+
+    # print("X_s", X.head(5))
+    # print()
+    # print("X_e", X.tail(5))
+    # print()
+    # print("Y_s", y.head(5))
+    # print()
+    # print("Y_e", y.tail(5))
+    # print()
+    # print(X.shape)
+    # print()
+    # print(y.shape)
 
     from sklearn.model_selection import train_test_split
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -59,8 +70,8 @@ def main():
     seq_length = 10  
     X_train_seq = np.array([X_train[i:i+seq_length] for i in range(len(X_train)-seq_length+1)])
     X_test_seq = np.array([X_test[i:i+seq_length] for i in range(len(X_test)-seq_length+1)])
-    y_train_seq = y_train[seq_length-1:]
-    y_test_seq = y_test[seq_length-1:]
+    y_train_seq = np.array([y_train.iloc[i+seq_length-1] for i in range(len(X_train)-seq_length+1)])
+    y_test_seq = np.array([y_test.iloc[i+seq_length-1] for i in range(len(X_test)-seq_length+1)])
 
     model = btcLSTM()
 
@@ -73,11 +84,12 @@ def main():
 
     y_pred = model.predict(X_test_seq)
 
-    print(y_pred)
+    print(len(y_pred))
+    print(len(y_test))
 
     plt.figure(figsize=(12, 6))
     plt.scatter(range(len(y_test)), y_test, label='Actual', marker='o', s=10)
-    plt.scatter(range(len(y_pred.flatten())), y_pred.flatten(), label='Predicted', marker='x', s=200)
+    plt.scatter(range(len(y_pred.flatten())), y_pred.flatten(), label='Predicted', marker='x', s=10)
     plt.title('Actual vs Predicted Percent Change')
     plt.xlabel('Time')
     plt.ylabel('Percent Change')
