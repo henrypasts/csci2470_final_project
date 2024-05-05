@@ -1,9 +1,7 @@
 import numpy as np
-from keras.models import Sequential
 from keras.layers import LSTM, Dense, BatchNormalization, Dropout, LeakyReLU
 import pandas as pd
 import tensorflow as tf
-import matplotlib.pyplot as plt
 import plotly.graph_objs as go
 import plotly.io as pio
 
@@ -16,8 +14,8 @@ class btcLSTM(tf.keras.Model):
 
         self.rnn = LSTM(self.rnn_size, return_sequences=False, return_state=True)
         self.dense1 = Dense(512, activation=LeakyReLU())
-        self.batch_norm = BatchNormalization()
-        self.dropout = Dropout(0.2)
+        # self.batch_norm = BatchNormalization()
+        # self.dropout = Dropout(0.2)
         self.dense2 = Dense(220, activation=LeakyReLU())
         self.dense3 = Dense(1, activation='linear')
 
@@ -54,7 +52,7 @@ def main():
     X_test_seq = np.array([X_test.iloc[i:i+seq_length] for i in range(len(X_test)-seq_length+1)])
     y_train_seq = np.array([y_train.iloc[i+seq_length-1] for i in range(len(X_train)-seq_length+1)])
     y_test_seq = np.array([y_test.iloc[i+seq_length-1] for i in range(len(X_test)-seq_length+1)])
-    
+
     model = btcLSTM()
 
     model.compile(optimizer='adam', loss='mse', metrics=[tf.keras.metrics.MeanSquaredError()])
