@@ -34,7 +34,7 @@ def sign_loss(y_true, y_pred):
     
     sign_penalty = tf.cast(tf.not_equal(tf.sign(y_true), tf.sign(y_pred)), dtype=tf.float32)
     
-    loss = absolute_error + 100 * sign_penalty
+    loss = absolute_error + 10 * sign_penalty
     
     return loss
 
