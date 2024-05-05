@@ -1,8 +1,8 @@
 import tensorflow as tf
 
-class SentimentTransformerBlock(tf.keras.layers.Layer):
+class SentimentLSTM(tf.keras.layers.Layer):
     def __init__(self, d_model, num_heads, ffn_units, dropout_rate):
-        super(SentimentTransformerBlock, self).__init__()
+        super(SentimentLSTM, self).__init__()
         self.multi_head_attention = tf.keras.layers.MultiHeadAttention(num_heads=num_heads, key_dim=d_model)
         self.feed_forward_network = tf.keras.Sequential([
             tf.keras.layers.Dense(ffn_units, activation='relu'),
