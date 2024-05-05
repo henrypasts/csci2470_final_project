@@ -54,7 +54,9 @@ def main():
 
     model = btcLSTM()
 
-    model.compile(optimizer='adam', loss='mse', metrics=[tf.keras.metrics.RootMeanSquaredError()])
+    loss = tf.keras.losses.MeanSquaredError(y, y_pred) + tf.keras.losses.Neg_RelU(y_pred)
+
+    model.compile(optimizer='adam', loss=tf.keras.losses.MeanAbsoluteError(), metrics=[tf.keras.metrics.MeanAbsoluteError()])
 
     model.fit(X_train_seq, y_train_seq, epochs=5, batch_size=32, validation_data=(X_test_seq, y_test_seq))
 
@@ -68,6 +70,15 @@ def main():
     fig.add_trace(go.Scatter(x=np.arange(len(y_test_seq)), y=y_test_seq, mode='markers', name='Actual'))
     fig.add_trace(go.Scatter(x=np.arange(len(y_pred)), y=y_pred.flatten(), mode='markers', name='Predicted'))
     fig.update_layout(title='Actual vs Predicted Percent Change', xaxis_title='Time', yaxis_title='Percent Change')
+    pio.show(fig)
+
+    # True value - predicted value
+    residual = y_test_seq - y_pred.flatten()
+
+    # Plot residuals
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=np.arange(len(residual)), y=residual, mode='lines', name='Residuals'))
+    fig.update_layout(title='Residuals (Actual - Predicted) vs Time', xaxis_title='Time', yaxis_title='Residual')
     pio.show(fig)
 
 if __name__ == '__main__':
