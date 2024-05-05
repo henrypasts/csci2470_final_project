@@ -27,7 +27,7 @@ class btcLSTM(tf.keras.Model):
         logits = self.dense3(logits)
         return logits
 
-# Postive or Negative Sign Loss
+# Postive or Negative Sign Loss (aka manoloss)
 def sign_loss(y_true, y_pred):
 
     absolute_error = tf.abs(y_true - y_pred)
