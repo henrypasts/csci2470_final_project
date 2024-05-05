@@ -39,7 +39,7 @@ def sign_loss(y_true, y_pred):
 
 def main():
     CLEANED_TWEETS_W_SENTIMENT = 'data/final_tweets.csv'
-    SENTIMENT_COL = 'sliding_sentiment' # 'compound' or 'sliding_sentiment'
+    SENTIMENT_COL = 'compound' # 'compound' or 'sliding_sentiment'
 
     data = pd.read_csv(CLEANED_TWEETS_W_SENTIMENT,sep=';')
     data = data.dropna(axis=0)
