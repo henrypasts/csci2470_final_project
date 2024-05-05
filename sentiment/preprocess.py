@@ -80,7 +80,7 @@ def preprocess(start_date, end_date, window_sz=10):
     sentiment_df['timestamp'] = pd.to_datetime(sentiment_df['timestamp'], errors='coerce')
     sentiment_df = sentiment_df[(sentiment_df['timestamp'] >= start_date) & (sentiment_df['timestamp'] <= end_date)]
     sentiment_df = sentiment_df.sort_values(by='timestamp')
-    # sentiment_df['sliding_sentiment'] = sentiment_df.rolling(window=window_sz).mean()
+    sentiment_df['sliding_sentiment'] = sentiment_df['compound'].rolling(window=window_sz).mean()
 
     # Calculate percent change for BTC data
     btc_df = pd.read_csv(BTC_2019_CSV)    
