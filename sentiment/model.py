@@ -27,6 +27,15 @@ class btcLSTM(tf.keras.Model):
         logits = self.dense3(logits)
         return logits
 
+def sign_loss(y_true, y_pred):
+
+    absolute_error = tf.abs(y_true - y_pred)
+    
+    sign_penalty = tf.cast(tf.not_equal(tf.sign(y_true), tf.sign(y_pred)), dtype=tf.float32)
+    
+    loss = absolute_error + 10 * sign_penalty
+    
+    return loss
 
 def main():
     CLEANED_TWEETS_W_SENTIMENT = 'data/final_tweets.csv'
@@ -55,9 +64,7 @@ def main():
 
     model = btcLSTM()
 
-    loss = tf.keras.losses.MeanSquaredError(y, y_pred) + tf.keras.losses.Neg_RelU(y_pred)
-
-    model.compile(optimizer='adam', loss=tf.keras.losses.MeanAbsoluteError(), metrics=[tf.keras.metrics.MeanAbsoluteError()])
+    model.compile(optimizer='adam', loss=sign_loss, metrics=[tf.keras.metrics.MeanSquaredError()])
 
     model.fit(X_train_seq, y_train_seq, epochs=5, batch_size=32, validation_data=(X_test_seq, y_test_seq))
 
@@ -65,6 +72,7 @@ def main():
     print(f'Test loss: {loss}')
 
     y_pred = model.predict(X_test_seq)
+
 
 
     fig = go.Figure()
