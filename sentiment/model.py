@@ -27,13 +27,14 @@ class btcLSTM(tf.keras.Model):
         logits = self.dense3(logits)
         return logits
 
+# Postive or Negative Sign Loss
 def sign_loss(y_true, y_pred):
 
     absolute_error = tf.abs(y_true - y_pred)
     
     sign_penalty = tf.cast(tf.not_equal(tf.sign(y_true), tf.sign(y_pred)), dtype=tf.float32)
     
-    loss = absolute_error + 10 * sign_penalty
+    loss = absolute_error + 100 * sign_penalty
     
     return loss
 
@@ -73,7 +74,6 @@ def main():
     y_pred = model.predict(X_test_seq)
 
 
-
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=np.arange(len(y_test_seq)), y=y_test_seq, mode='markers', name='Actual'))
     fig.add_trace(go.Scatter(x=np.arange(len(y_pred)), y=y_pred.flatten(), mode='markers', name='Predicted'))
@@ -83,11 +83,11 @@ def main():
     # True value - predicted value
     residual = y_test_seq - y_pred.flatten()
 
-    # Plot residuals
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=np.arange(len(residual)), y=residual, mode='lines', name='Residuals'))
-    fig.update_layout(title='Residuals (Actual - Predicted) vs Time', xaxis_title='Time', yaxis_title='Residual')
-    pio.show(fig)
+    # # Plot residuals
+    # fig = go.Figure()
+    # fig.add_trace(go.Scatter(x=np.arange(len(residual)), y=residual, mode='lines', name='Residuals'))
+    # fig.update_layout(title='Residuals (Actual - Predicted) vs Time', xaxis_title='Time', yaxis_title='Residual')
+    # pio.show(fig)
 
 if __name__ == '__main__':
     main()
