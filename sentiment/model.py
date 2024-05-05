@@ -4,15 +4,14 @@ import pandas as pd
 import tensorflow as tf
 import plotly.graph_objs as go
 import plotly.io as pio
+from sklearn import preprocessing
 
 class btcLSTM(tf.keras.Model):
 
-    def __init__(self, rnn_size=300, embed_size=64):
+    def __init__(self, lstm_size=300):
         super().__init__()
-        self.rnn_size = rnn_size
-        self.embed_size = embed_size
 
-        self.rnn = LSTM(self.rnn_size, return_sequences=False, return_state=True)
+        self.rnn = LSTM(lstm_size, return_sequences=False, return_state=True)
         self.dense1 = Dense(512, activation=LeakyReLU())
         # self.batch_norm = BatchNormalization()
         # self.dropout = Dropout(0.2)
@@ -47,7 +46,7 @@ def main():
     from sklearn.model_selection import train_test_split
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    seq_length = 15
+    seq_length = 10
     X_train_seq = np.array([X_train.iloc[i:i+seq_length] for i in range(len(X_train)-seq_length+1)])
     X_test_seq = np.array([X_test.iloc[i:i+seq_length] for i in range(len(X_test)-seq_length+1)])
     y_train_seq = np.array([y_train.iloc[i+seq_length-1] for i in range(len(X_train)-seq_length+1)])
@@ -55,7 +54,7 @@ def main():
 
     model = btcLSTM()
 
-    model.compile(optimizer='adam', loss='mse', metrics=[tf.keras.metrics.MeanSquaredError()])
+    model.compile(optimizer='adam', loss='mse', metrics=[tf.keras.metrics.RootMeanSquaredError()])
 
     model.fit(X_train_seq, y_train_seq, epochs=5, batch_size=32, validation_data=(X_test_seq, y_test_seq))
 
