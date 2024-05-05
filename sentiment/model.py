@@ -30,17 +30,18 @@ class btcLSTM(tf.keras.Model):
 
 def main():
     CLEANED_TWEETS_W_SENTIMENT = 'data/final_tweets.csv'
+    SENTIMENT_COL = 'sliding_sentiment' # 'compound' or 'sliding_sentiment'
 
     data = pd.read_csv(CLEANED_TWEETS_W_SENTIMENT,sep=';')
     data = data.dropna(axis=0)
 
-    X = data[['Percent Change', 'compound']]
+    X = data[['Percent Change', SENTIMENT_COL]]
 
     y = data['Percent Change'].shift(-1)
 
     y = y.iloc[:-1]
 
-    X = data[['Percent Change', 'compound']].iloc[:-1]
+    X = data[['Percent Change', SENTIMENT_COL]].iloc[:-1]
 
 
     from sklearn.model_selection import train_test_split
